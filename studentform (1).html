@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      padding: 50px;
+    }
+
+    form {
+      background-color: antiquewhite;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 500px;
+    }
+
+    h1 {
+      text-align: center;
+      color: black;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="date"],
+    input[type="time"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid white;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      margin-right: 5px;
+      margin-left: 5px;
+    }
+
+    .radio-group, .checkbox-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    input[type="file"] {
+      border: 10px;
+    }
+
+    .button-group {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      padding: 10px 25px;
+      border: 10px;
+      border-radius: 5px;
+      font-size: 16px;
+      color: white;
+      cursor: pointer;
+    }
+
+    button[type="submit"] {
+      background-color: green;
+    }
+
+    button[type="reset"] {
+      background-color: red;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="regForm">
+    <h1>Register Form</h1>
+    <!-- Basic Details -->
+    <label for="fullname">Full Name:</label><br>
+    <input type="text" id="fullname" name="fullname" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <label for="dob">Date of Birth:</label><br>
+    <input type="date" id="dob" name="dob"><br><br>
+
+    <label for="time">Time:</label><br>
+    <input type="time" id="time" name="time"><br><br>
+
+    <!-- Gender (Radio Buttons) -->
+    <label>Gender:</label>
+    <input type="radio" id="male" name="gender" value="male">
+    <label for="male">Male</label>
+
+    <input type="radio" id="female" name="gender" value="female">
+    <label for="female">Female</label>
+
+    <input type="radio" id="other" name="gender" value="other">
+    <label for="other">Other</label><br><br>
+
+    <!-- Department (Dropdown) -->
+    <label for="department">Department:</label><br><br>
+    <select id="department" name="department">
+      <option value="">--Select--</option>
+      <option value="cse">Computer Science</option>
+      <option value="ece">Electronics</option>
+      <option value="eee">Electrical</option>
+      <option value="mech">Mechanical</option>
+      <option value="civil">Civil</option>
+    </select><br><br>
+
+    <!-- Skills (Checkboxes) -->
+    <label>Skills:</label><br>
+    <input type="checkbox" id="html" name="skills" value="HTML">
+    <label for="html">HTML</label><br>
+
+    <input type="checkbox" id="css" name="skills" value="CSS">
+    <label for="css">CSS</label><br>
+
+    <input type="checkbox" id="js" name="skills" value="JavaScript">
+    <label for="js">JavaScript</label><br>
+
+    <input type="checkbox" id="react" name="skills" value="React">
+    <label for="react">React</label><br><br>
+
+    <!-- Address -->
+    <label for="address">Address:</label><br>
+    <textarea id="address" name="address" rows="4" cols="30"></textarea><br><br>
+
+    <!-- File Upload -->
+    <label for="photo">Upload Photo:</label><br>
+    <input type="file" id="photo" name="photo"><br><br>
+
+    <!-- Submit & Reset -->
+    <button type="submit">Register</button>
+    <button type="reset">Reset</button>
+  </form>
+  <script>
+    console.log("Hello, World!");
+    let form = document.getElementById("regForm");
+    form.addEventListener("submit", function(event){
+        event.preventDefault();
+        let name = document.getElementById("fullname").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let password = document.getElementById("password").value.trim();
+        let dob = document.getElementById("dob").value.trim();
+        let dept = document.getElementById("department").value.trim();   
+        let address = document.getElementById("address").value.trim();
+        let genderInput = document.querySelector('input[name="gender"]:checked');
+        let gender = genderInput ? genderInput.value.trim() : "";
+
+        let skillInputs = document.querySelectorAll('input[name="skills"]:checked');
+        let skills = Array.from(skillInputs).map(input => input.value);
+
+        let student = {name, email, password, dob, dept, address, gender, skills};
+
+        let students = JSON.parse(localStorage.getItem("students")) || [];
+
+        students.push(student);
+
+        localStorage.setItem("students", JSON.stringify(students));
+         form.reset();
+    });
+  </script>
+</body>
+</html>
